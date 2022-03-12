@@ -300,10 +300,10 @@ add_action('comment_form', 'deel_add_checkbox');
 function time_ago($type = 'commennt', $day = 7) {
     $d = $type == 'post' ? 'get_post_time' : 'get_comment_time';
     if (time() - $d('U') > 60 * 60 * 24 * $day) return;
-    echo ' (', human_time_diff($d('U') , strtotime(current_time('mysql', 0))) , '前)';
+    echo ' (', human_time_diff($d('U') , strtotime(current_time('mysql', 8))) , '前)';
 }
 function timeago($ptime) {
-    $ptime = strtotime($ptime);
+    $ptime = strtotime($ptime) + 28800;
     $etime = time() - $ptime;
     if ($etime < 1) return '刚刚';
     $interval = array(
@@ -700,7 +700,7 @@ add_action( 'wp_ajax_nopriv_weauth_qr_gen', 'weauth_qr_gen' );
 //检查登录状况
 function weauth_check(){
     if (isset($_POST['sk']) && $_POST['action'] == 'weauth_check') {
-        $rest = substr($_POST['sk'],-3);//key
+        $rest = substr($_POST['sk'],-16);//key
         $weauth_cache = get_transient($rest.'ok');
         if (!empty($weauth_cache)) {
             exit($rest);//key
@@ -799,9 +799,11 @@ function post_thumbnail_src() {
         $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
         @$post_thumbnail_src = $matches[1][0]; //获取该图片 src
         if (empty($post_thumbnail_src)) { //如果日志中没有图片，则显示随机图片
-            $random = mt_rand(1, 12);
-            echo GIT_URL;
-            echo '/assets/img/pic/' . $random . '.jpg';
+            // $random = mt_rand(1, 12);
+            // echo GIT_URL;
+            // echo '/assets/img/pic/' . $random . '.jpg';
+            echo home_url();
+            echo getRandomImgName();
         }
     };
     echo $post_thumbnail_src;
@@ -1426,16 +1428,16 @@ if (git_get_option('git_admin')) {
 
 //获取云落的远程通知，加入缓存，1天一次
 function get_Yunluo_Notice(){
-	$Yunluo_Notice = get_transient('Yunluo_Notice');
-	if(false === $Yunluo_Notice){
-        $Yunluo_Notice = wp_remote_get('https://u.gitcafe.net/api/notice.txt')['body'];
-		if ( is_array( $Yunluo_Notice ) && !is_wp_error($Yunluo_Notice) && $Yunluo_Notice['response']['code'] == '200' ) {
-			set_transient('Yunluo_Notice', $Yunluo_Notice, 60*60*12);//缓存12小时
-		}else{
-			set_transient('Yunluo_Notice', '有点小尴尬哈啊，服务器菌暂时有点累了呢，先休息一会儿~，', 60*60*2);//缓存2小时
-		}
-    }
-    return $Yunluo_Notice;
+// 	$Yunluo_Notice = get_transient('Yunluo_Notice');
+// 	if(false === $Yunluo_Notice){
+//         $Yunluo_Notice = wp_remote_get('https://u.gitcafe.net/api/notice.txt')['body'];
+// 		if ( is_array( $Yunluo_Notice ) && !is_wp_error($Yunluo_Notice) && $Yunluo_Notice['response']['code'] == '200' ) {
+// 			set_transient('Yunluo_Notice', $Yunluo_Notice, 60*60*12);//缓存12小时
+// 		}else{
+// 			set_transient('Yunluo_Notice', '有点小尴尬哈啊，服务器菌暂时有点累了呢，先休息一会儿~，', 60*60*2);//缓存2小时
+// 		}
+//     }
+//     return $Yunluo_Notice;
 }
 
 //获取页面id，并且不可重用
@@ -1469,7 +1471,7 @@ function link_the_thumbnail_src(){
     preg_match('/src="(.*?)"/i', $content, $matches, PREG_OFFSET_CAPTURE, 0);
     $post_thumbnail_src = $matches[1][0];
     if (empty($post_thumbnail_src)) {
-        $post_thumbnail_src = GIT_URL . '/assets/img/pic/' . mt_rand(1, 12) . '.jpg';
+        $post_thumbnail_src = home_url() . getRandomImgName();
     }
     return $post_thumbnail_src;
 }
@@ -1685,5 +1687,26 @@ class Git_Tax_Image{
 
 $wptt_tax_image = new Git_Tax_Image();
 //WordPress函数代码结束,打算在本文件添加代码的建议参照这个方法：http://gitcafe.net/archives/4032.html
-
+//add
+// 获取指定目录下面的某个随机文件名
+function getRandomImgName()
+{ 
+    $directory = dirname(__DIR__, 3) . "/assets/images/pics/";
+	$mydir = dir($directory); 
+	$files = array(); 
+	while($file = $mydir->read())
+	{ 
+		if(is_dir("$directory/$file")) continue;
+		if($file == ".")  continue;
+		if($file == "..") continue;
+		
+		array_push($files, $file);
+	} 
+	$mydir->close(); 
+	
+	srand((float) microtime() * 10000000);
+	$index = array_rand($files);
+	return "/assets/images/pics/" . $files[$index];
+}
+//end
 
