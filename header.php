@@ -256,7 +256,12 @@ if (git_get_option('git_sign_b')) {
                     echo '&nbsp;&nbsp;<i class="fa fa-pencil-square-o" ></i>  <a href="'.esc_url( wp_registration_url() ).'">注册</a>';
                     echo '<div id="loginbox" style="width:350px;height:auto;overflow:auto;display:none;">';
                     // wp_login_form(array( 'redirect' => site_url( $_SERVER['REQUEST_URI'] ) ));
-                    if(defined('Go_Login_DIR')){go_login_connect();}else{wp_login_form(array( 'redirect' => site_url( $_SERVER['REQUEST_URI'] ) ));}
+                    if(defined('Go_Login_DIR')){
+                    	wp_login_form(array( 'redirect' => site_url( $_SERVER['REQUEST_URI'] ) ));
+                    	Go_login_connect_form();
+                    }else{
+                    	wp_login_form(array( 'redirect' => site_url( $_SERVER['REQUEST_URI'] ) ));
+                    }
                     echo '</div>';
                 }
             }
