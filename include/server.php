@@ -314,13 +314,13 @@ function get_weauth_qr(){
   return $qr64;
 }
 
-function weauth_rewrite_rules($wp_rewrite){
-    if ($ps = get_option('permalink_structure')) {
-        $new_rules['^weauth'] = 'index.php?user=$matches[1]&sk=$matches[2]';
-        $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
-    }
-}
-add_action('generate_rewrite_rules', 'weauth_rewrite_rules');
+// function weauth_rewrite_rules($wp_rewrite){
+//     if ($ps = get_option('permalink_structure')) {
+//         $new_rules['^weauth'] = 'index.php?user=$matches[1]&sk=$matches[2]';
+//         $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
+//     }
+// }
+//add_action('generate_rewrite_rules', 'weauth_rewrite_rules');
 
 function weauth_oauth(){
     $weauth_user = $_GET['user'];
@@ -363,9 +363,9 @@ function weauth_oauth(){
     set_transient($weauth_sk . 'ok', $user_id, 30);//用于登录的随机数，有效期为20秒
 }
 //初始化
-function weauth_oauth_init(){
-    if (isset($_GET['user']) && isset($_GET['sk'])){
-        weauth_oauth();
-    }
-}
-add_action('init','weauth_oauth_init');
+// function weauth_oauth_init(){
+//     if (isset($_GET['user']) && isset($_GET['sk'])){
+//         weauth_oauth();
+//     }
+// }
+// add_action('init','weauth_oauth_init');

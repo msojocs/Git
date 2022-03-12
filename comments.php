@@ -69,7 +69,9 @@ $closeTimer = (strtotime(date('Y-m-d G:i:s'))-strtotime(get_the_time('Y-m-d G:i:
 				<div class="comt-ctrl">
 					<button class="btn btn-primary pull-right" type="submit" name="submit" id="submit" tabindex="5"><i class="fa fa-check-square-o"></i> 提交评论</button>
 					<div class="comt-tips pull-right"><?php comment_id_fields(); do_action('comment_form', $post->ID); ?></div>
-					<span data-type="comment-insert-smilie" class="muted comt-smilie"><i class="fa fa-smile-o"></i> 表情</span>
+					<!-- <span data-type="comment-insert-smilie" class="muted comt-smilie"><i class="fa fa-smile-o"></i> 表情</span> -->
+					<span class="muted comt-smilie"><div class="OwO"><i class="fa fa-smile-o"></i> OwO表情</div></span>
+					
 					<?php if(!git_get_option('git_tietu')) echo '<span class="muted ml5 comt-img"><i class="fa fa-picture-o"></i><a href="javascript:SIMPALED.Editor.img()" style="color:#999999"> 贴图</a></span>';?>
 					<?php if(!git_get_option('git_jiacu')) echo '<span class="muted ml5 comt-strong"><i class="fa fa-bold"></i><a href="javascript:SIMPALED.Editor.strong()" style="color:#999999"> 加粗</a></span>';?>
 					<?php if(!git_get_option('git_shanchu')) echo '<span class="muted ml5 comt-del"><i class="fa fa-strikethrough"></i><a href="javascript:SIMPALED.Editor.del()" style="color:#999999"> 删除线</a></span>';?>
@@ -78,6 +80,8 @@ $closeTimer = (strtotime(date('Y-m-d G:i:s'))-strtotime(get_the_time('Y-m-d G:i:
 					<?php if(!git_get_option('git_qiandao')) echo '<span class="muted ml5 comt-sign"><i class="fa fa-pencil-square-o"></i><a href="javascript:SIMPALED.Editor.daka()" style="color:#999999"> 签到</a></span>';?>
 				</div>
 			</div>
+			<!--add-->
+			<link rel="stylesheet" href="/assets/OwO/OwO.min.css">
 
 			<?php if ( !is_user_logged_in() ) { ?>
 				<?php if( get_option('require_name_email') ){ ?>

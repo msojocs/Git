@@ -876,7 +876,8 @@ function fa_get_wpsmiliestrans() {
     $wpsmilies = array_unique($wpsmiliestrans);
     $output = '';
     foreach ($wpsmilies as $alt => $src_path) {
-        $output.= '<a class="add-smily" data-smilies="' . $alt . '"><img class="wp-smiley" style="height:24px;width:24px;" src="' . GIT_URL . '/assets/img/smilies/' . rtrim($src_path, "gif") . 'gif" /></a>';
+        // $output.= '<a class="add-smily" data-smilies="' . $alt . '"><img class="wp-smiley" style="height:24px;width:24px;" src="' . GIT_URL . '/assets/img/smilies/' . rtrim($src_path, "gif") . 'gif" /></a>';
+        $output.= '<a class="add-smily" data-smilies="' . $alt . '"><img class="wp-smiley" style="height:24px;width:24px;" src="/assets/images/smilies/' . $src_path. '" /></a>';
     }
     return $output;
 }

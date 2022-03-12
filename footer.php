@@ -1,4 +1,4 @@
-</section>
+</section></section>
 <?php
 if (git_get_option('git_superfoot_b') && !git_is_mobile()) { ?>
 <div id="footbar" style="border-top: 2px solid #8E44AD;"><ul>
